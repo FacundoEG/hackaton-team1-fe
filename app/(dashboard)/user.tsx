@@ -2,10 +2,6 @@ import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import {
   DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import Link from 'next/link';
@@ -20,7 +16,7 @@ export async function User() {
           className="overflow-hidden rounded-full"
         >
           <Image
-            src={'/placeholder-user.jpg'}
+            src={'/kovix.png'}
             width={36}
             height={36}
             alt="Avatar"
