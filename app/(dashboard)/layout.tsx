@@ -29,6 +29,7 @@ import { User } from './user';
 import { VercelLogo } from '@/components/icons';
 import Providers from './providers';
 import { NavItem } from './nav-item';
+import Head from 'next/head';
 
 export default function DashboardLayout({
   children
@@ -37,9 +38,9 @@ export default function DashboardLayout({
 }) {
   return (
     <Providers>
-      <main className="flex min-h-screen w-full flex-col bg-muted/40">
+      <main className="flex h-screen w-full flex-col bg-muted/40 ">
         <DesktopNav />
-        <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
+        <div className="flex flex-col h-full sm:gap-4 sm:py-4 sm:pl-14">
           <header className="sticky top-0 z-30 flex h-14 items-center justify-end gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
             <MobileNav />
             <User />

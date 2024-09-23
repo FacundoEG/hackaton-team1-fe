@@ -1,11 +1,15 @@
 import './globals.css';
+import Head from 'next/head';
 
 import { Analytics } from '@vercel/analytics/react';
 
 export const metadata = {
   title: 'Pallet-IA-zer',
   description:
-    'A user admin dashboard configured with Next.js, Postgres, NextAuth, Tailwind CSS, TypeScript, and Prettier.'
+    'A user admin dashboard configured with Next.js, Postgres, NextAuth, Tailwind CSS, TypeScript, and Prettier.',
+  icons: {
+    icon: '/kovix.png'
+  }
 };
 
 export default function RootLayout({

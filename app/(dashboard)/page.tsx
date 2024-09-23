@@ -27,33 +27,52 @@ export default function ProductsPage() {
     const file = event.target.files[0];
     if (file) {
       console.log('Imagen seleccionada:', file.name);
-    }
 
-    setIsLoading(true);
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = async () => {
+        const base64data = reader.result?.toString().split(',')[1]; // Eliminar la parte 'data:image/png;base64,'
 
-    setTimeout(async () => {
-      try {
-        const response = await fetch('http://10.0.7.212:5000/image', {
-          method: 'GET'
-        });
+        if (base64data) {
+          setIsLoading(true);
 
-        if (!response.ok) {
-          throw new Error('Error al obtener la imagen');
+          try {
+            const response = await fetch('http://10.0.7.212:5000/image/body', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ img: base64data })
+            });
+
+            if (!response.ok) {
+              throw new Error('Error al procesar la imagen');
+            }
+
+            const data = await response.json();
+            setImageSrc(data.img);
+            setSkus(data.skus);
+          } catch (error) {
+            console.error('Error fetching image:', error);
+          } finally {
+            setIsLoading(false);
+          }
         }
-
-        const data = await response.json();
-        setImageSrc(data.img);
-        setSkus(data.skus);
-      } catch (error) {
-        console.error('Error fetching image:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    }, 1000);
+      };
+    }
   };
 
   const capitalizeFirstLetter = (string: string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+
+  const groupSKUs = (skus) => {
+    const skuCount = skus.reduce((acc, sku) => {
+      acc[sku] = (acc[sku] || 0) + 1;
+      return acc;
+    }, {});
+
+    return Object.entries(skuCount).map(([sku, count]) => `${sku} x${count}`);
   };
 
   return (
@@ -93,7 +112,7 @@ export default function ProductsPage() {
                   Lista de SKU's identificados:
                 </CardTitle>
                 <ul className="list-disc ml-4 mt-2">
-                  {skus.map((sku, index) => (
+                  {groupSKUs(skus).map((sku, index) => (
                     <CardDescription className="text-lg" key={index}>
                       {'- ' + capitalizeFirstLetter(sku)}
                     </CardDescription>
@@ -107,12 +126,12 @@ export default function ProductsPage() {
           <div className="mt-4">
             <Card>
               <CardHeader>
-                <CardTitle className="text-2xl">Imagen recibida:</CardTitle>
+                <CardTitle className="text-2xl">Imagen procesada:</CardTitle>
                 <img
                   src={`data:image/png;base64,${imageSrc}`}
                   alt="Generada por la API"
                   className="w-full h-auto mt-2"
-                  style={{ maxWidth: '800px', width: '100%' }}
+                  style={{ maxWidth: '1200px', width: '100%' }}
                 />
               </CardHeader>
             </Card>
