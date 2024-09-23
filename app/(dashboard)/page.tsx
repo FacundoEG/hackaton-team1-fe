@@ -1,7 +1,12 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { File, PlusCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { ProductsTable } from './products-table';
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle
+} from '@/components/ui/card';
 
 export default async function ProductsPage({
   searchParams
@@ -10,16 +15,21 @@ export default async function ProductsPage({
 }) {
   return (
     <Tabs defaultValue="all">
-      <div className="flex items-center">
-        <div className="ml-auto flex items-center gap-2">
-          <Button size="sm" className="h-8 gap-1">
-            <PlusCircle className="h-3.5 w-3.5" />
-            <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-              Add Product
-            </span>
-          </Button>
-        </div>
-      </div>
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-3xl">Pallets</CardTitle>
+          <CardDescription className="text-lg">
+            Agrega una imagen para poder validar el orden mas optimo de los
+            SKU's.
+          </CardDescription>
+          <div>
+            <Button size="sm" className="h-10 mt-2 gap-2 w-min">
+              <PlusCircle className="h-5 w-5" />
+              <span className=" text-base">Agregar imagen</span>
+            </Button>
+          </div>
+        </CardHeader>
+      </Card>
       <TabsContent value="all"></TabsContent>
     </Tabs>
   );
